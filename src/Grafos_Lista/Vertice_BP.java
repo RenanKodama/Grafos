@@ -1,9 +1,52 @@
-
 package Grafos_Lista;
 
-public class Vertice_BP extends Vertice_BL{
+import java.awt.Color;
+
+public class Vertice_BP {
+
+    private String id;
+    private Color cor;
     private int tempo_inicial;
     private int tempo_final;
+    private Vertice_BP predecessor;
+
+    public String getId() {
+        return id;
+    }
+
+    public String getNameColor(Color color) {
+        if (color.equals(Color.WHITE)) {
+            return "Branco";
+        }
+        if (color.equals(Color.GRAY)) {
+            return "Cinza";
+        }
+
+        if (color.equals(Color.BLACK)) {
+            return "Preto";
+        }
+        return "none";
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public Color getCor() {
+        return cor;
+    }
+
+    public void setCor(Color cor) {
+        this.cor = cor;
+    }
+
+    public Vertice_BP getPredecessor() {
+        return predecessor;
+    }
+
+    public void setPredecessor(Vertice_BP predecessor) {
+        this.predecessor = predecessor;
+    }
 
     public int getTempo_inicial() {
         return tempo_inicial;
@@ -20,6 +63,5 @@ public class Vertice_BP extends Vertice_BL{
     public void setTempo_final(int tempo_final) {
         this.tempo_final = tempo_final;
     }
-    
-    
+
 }
