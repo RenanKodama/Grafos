@@ -29,7 +29,7 @@ public class Principal {
         transicoes.add(aux3);
         transicoes.add(aux4);
         
-        nulo.verTransicoes(transicoes);
+        //nulo.verTransicoes(transicoes);
         
         /*Busca em Largura*/
 //        Grafo grafo = new Grafo();
@@ -42,6 +42,7 @@ public class Principal {
 //        bL.buscaLargura_init(grafo, verticeInitialBL);
 //        bL.buscaLargura(grafo);
         /*End Busca em Largura*/
+        
         
         
         
@@ -88,6 +89,7 @@ public class Principal {
         bP.insereBP(grafo, transicoes);
         bP.buscaProfundidade_Init(grafo);
         bP.buscaProfundidade(grafo, arestaInicial);
+        bP.verBuscaP(grafo);
         /*End Busca em Profundidade*/
     
     }

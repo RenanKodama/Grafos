@@ -8,10 +8,8 @@ import java.util.Set;
 public class BuscaProfundidade {
 
     private int tempo;
+    private Set<String> set;
     
-    public void buscaInacessiveis(Grafo grafo){
-
-    }
 
     public void buscaProfundidade_Init(Grafo grafo) {
         for (ArrayList<Aresta> ar : grafo.getMap().values()) {
@@ -23,15 +21,26 @@ public class BuscaProfundidade {
                 ar.get(i).getDestinoBP().setPredecessor(verticeBP);
             }
         }
-
+        
         setTempo(0);
         //Se branco chamar a funçao buscaProfundidade
         for (ArrayList<Aresta> ar : grafo.getMap().values()) {
             for (int i = 0; i < ar.size(); i++) {
+                //debug
+                //verBuscaP(grafo);
                 if (ar.get(i).getDestinoBP().getCor().equals(Color.WHITE)) {
-                    buscaProfundidade(grafo, ar.get(i));
+                    //Incrementar para os inacessiveis
+                    if (!this.set.contains(ar.get(i).getDestinoBP().getId())) {
+                        incrementaTempo();
+                    }
+                    
+                    buscaProfundidade(grafo, ar.get(i)); 
+                    
+                    //Incrementar para os inacessiveis
+                    if (!this.set.contains(ar.get(i).getDestinoBP().getId())) {
+                        incrementaTempo();
+                    }
                 }
-
             }
         }
     }
@@ -40,28 +49,29 @@ public class BuscaProfundidade {
         incrementaTempo();
         aresta.getDestinoBP().setTempo_inicial(getTempo());
         aresta.getDestinoBP().setCor(Color.GRAY);
-        
-        for(ArrayList<Aresta> ar1 : grafo.getMap().values()){
-            for(Aresta ar2 : ar1){
-                if(ar2.getDestinoBP().getId().equals(aresta.getDestinoBP().getId())){
+
+        for (ArrayList<Aresta> ar1 : grafo.getMap().values()) {
+            for (Aresta ar2 : ar1) {
+                if (ar2.getDestinoBP().getId().equals(aresta.getDestinoBP().getId())) {
                     ar2.setDestinoBP(aresta.getDestinoBP());
                 }
             }
         }
         
+        //verBuscaP(grafo);
+        
         for (Aresta ar : grafo.getMap().get(aresta.getDestinoBP().getId())) {
             if (ar.getDestinoBP().getCor().equals(Color.WHITE)) {
                 ar.getDestinoBP().setPredecessor(aresta.getDestinoBP());
                 buscaProfundidade(grafo, ar);
-
             }
         }
-
+        
         aresta.getDestinoBP().setCor(Color.BLACK);
         incrementaTempo();
         aresta.getDestinoBP().setTempo_final(getTempo());
 
-        verBuscaP(grafo);
+        //verBuscaP(grafo);
     }
 
     public void removeBLVertice(Grafo grafo, String id, Double peso) {
@@ -85,6 +95,14 @@ public class BuscaProfundidade {
         System.out.println("Remoçao do vertice " + vertice.getId());
         verBuscaP(grafo);
     }
+    
+    public Set<String> getSet() {
+        return set;
+    }
+
+    public void setSet(Set<String> set) {
+        this.set = set;
+    }
 
     private void incrementaTempo() {
         this.tempo++;
@@ -107,31 +125,37 @@ public class BuscaProfundidade {
             System.out.print("\t" + str + "-->\t");
             for (Aresta ar : grafo.getMap().get(str)) {
                 System.out.print(ar.getDestinoBP().getId() + "<"
-                        + ar.getDestinoBP().getNameColor(ar.getDestinoBP().getCor()) + ">" + " ");
-                //"("
-                //+ ar.getDestinoBP().getPredecessor().getId() + ")");
+                        +   ar.getDestinoBP().getNameColor(ar.getDestinoBP().getCor()) +
+                            ar.getDestinoBP().getTempo_inicial() +","+ar.getDestinoBP().getTempo_final()+">");
             }
             System.out.println("");
         }
         System.out.println("EndContent\n");
 
     }
-    
+
     public void verInacessiveis(Grafo grafo, ArrayList<Transicoes> transicoes) {
         Set<String> set = new HashSet<>();
-        
-        System.out.println("Inacessiveis");
-        for(Transicoes ar1 : transicoes){
+
+        for (Transicoes ar1 : transicoes) {
             set.add(ar1.getOrigem());
         }
+
+        for (ArrayList<Aresta> ar1 : grafo.getMap().values()) {
+            for (Aresta ar2 : ar1) {
+                if (set.contains(ar2.getDestinoBP().getId())) {
+                    set.remove(ar2.getDestinoBP().getId());
+                }
+            }
+        }
         
-        //VARRER VALUES DE MAP E IR COMPARANDO COM O SET
-        
+        this.set = set;
+        System.out.println("Inacessiveis");
         System.out.println(set.toString());
         System.out.println();
         
     }
-    
+
     public void insereBP(Grafo grafo, ArrayList<Transicoes> transicoes) {
         //Adiciona os vertices key no map
         for (int i = 0; i < transicoes.size(); i++) {
@@ -155,6 +179,7 @@ public class BuscaProfundidade {
 
             grafo.getMap().get(transicoes.get(i).getOrigem()).add(aresta);
         }
+
         //verBuscaP(grafo);
         verInacessiveis(grafo, transicoes);
     }
