@@ -78,8 +78,8 @@ public class MatrizAdj {
     }
     
     public void verMatrizAdjT() {
-        System.out.println("\nVertices: "+this.vertices.toString() + "\n");
-        System.out.println("MatrizAdjacenciaTContent: ");
+        System.out.println("\nVertices: "+this.vertices.toString());
+        System.out.println("MatrizAdjacenciaTranspostaContent: ");
         for (int i = 0; i < this.vertices.size(); i++) {
             System.out.print("\t");
             for (int j = 0; j < this.vertices.size(); j++) {
@@ -87,11 +87,11 @@ public class MatrizAdj {
             }
             System.out.println();
         }
-        System.out.println("MatrizAdjacenciaTEndContent");
+        System.out.println("MatrizAdjacenciaTranspostaEndContent");
     }
     
     public void verMatrizAdj() {
-        System.out.println("\nVertices: "+this.vertices.toString() + "\n");
+        System.out.println("\nVertices: "+this.vertices.toString());
         System.out.println("MatrizAdjacenciaContent: ");
         for (int i = 0; i < this.vertices.size(); i++) {
             System.out.print("\t");

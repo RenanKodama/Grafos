@@ -44,6 +44,7 @@ public class TiposBuscas {
                 C->D
                 D->A
          */
+        
         Transicoes aux0 = new Transicoes("A", "B", 1.00);
         Transicoes aux1 = new Transicoes("B", "C", 1.00);
         Transicoes aux2 = new Transicoes("C", "B", 1.00);
@@ -63,10 +64,10 @@ public class TiposBuscas {
         
         verticeInitialBL.setId("A");
 
-        /*bL.insereBL(grafo, transicoes);
+        bL.insereBL(grafo, transicoes);
         //bL.removeBLVertice(grafo,"C",1.00);
         bL.buscaLargura_init(grafo, verticeInitialBL);
-        bL.buscaLargura(grafo);*/
+        bL.buscaLargura(grafo);
     }
 
     private void iniciaBuscaProfundidade() {
@@ -113,11 +114,11 @@ public class TiposBuscas {
         verticeInitialBP.setId("A");
         arestaInicial.setDestinoBP(verticeInitialBP);
 
-        /*bP.insereBP(grafo, transicoes);
+        bP.insereBP(grafo, transicoes);
         bP.buscaProfundidade_Init(grafo);
         bP.buscaProfundidade(grafo, arestaInicial);
         bP.verBuscaP(grafo);
-        bP.verTopologia();*/
+        bP.verTopologia();
     }
 
 }

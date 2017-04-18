@@ -5,7 +5,8 @@
 #	Após executar o programa, é pedido pelo console que o usuário entre com o nome de qual algoritmo de busca usar
 #	podendo ser BL(Busca em Largura) ou BP(Busca em Profundidade);
 #	As funções que implementam os algoritmos de buscas mencionados anteriormente se encontram nas classes BuscaLargura
-#	e BuscaProfundidade; 
+#	e BuscaProfundidade;
+#   No KeyMap a key de instancia "nil" representa os vertices que não são alcançaveis por nenhum outro vertice.
 #	A classe que inicia as funcionalidades é a "TiposBuscas" nela se encontra dois modelos prontos para a entrada:
 #	Input01: A->B
 #                B->C
