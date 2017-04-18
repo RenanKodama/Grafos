@@ -11,23 +11,10 @@ public class BuscaProfundidade {
     private int tempo;
     private Set<String> set;
     private ArrayList<Vertice_BP> listTopoligica;
-            
-    public void ordenaçaoTopologicaInit(){
-        this.listTopoligica = new ArrayList<>();
-    }
-    
-    public void ordenaçaoTopologica(Vertice_BP vertice){
-        for(Vertice_BP vertice1 : this.listTopoligica){
-            if(vertice1.getId().equals(vertice.getId())){
-                return;
-            }
-        }
-        listTopoligica.add(vertice);    
-    }
-    
+
     public void buscaProfundidade_Init(Grafo grafo) {
         ordenaçaoTopologicaInit();
-        
+
         for (ArrayList<Aresta> ar : grafo.getMap().values()) {
             for (int i = 0; i < ar.size(); i++) {
                 Vertice_BP verticeBP = new Vertice_BP();
@@ -37,16 +24,16 @@ public class BuscaProfundidade {
                 ar.get(i).getDestinoBP().setPredecessor(verticeBP);
             }
         }
-        
+
         setTempo(0);
-        
+
         //Se branco chamar a funçao buscaProfundidade
         for (ArrayList<Aresta> ar : grafo.getMap().values()) {
             for (int i = 0; i < ar.size(); i++) {
                 /*debug*/
                 //verBuscaP(grafo);
                 if (ar.get(i).getDestinoBP().getCor().equals(Color.WHITE)) {
-                    buscaProfundidade(grafo, ar.get(i)); 
+                    buscaProfundidade(grafo, ar.get(i));
                 }
             }
         }
@@ -57,7 +44,7 @@ public class BuscaProfundidade {
         incrementaTempo();
         aresta.getDestinoBP().setTempo_inicial(getTempo());
         aresta.getDestinoBP().setCor(Color.GRAY);
-        
+
         //Atualizar os demais valores do Map
         for (ArrayList<Aresta> ar1 : grafo.getMap().values()) {
             for (Aresta ar2 : ar1) {
@@ -66,7 +53,7 @@ public class BuscaProfundidade {
                 }
             }
         }
-        
+
         //verBuscaP(grafo);
         for (Aresta ar : grafo.getMap().get(aresta.getDestinoBP().getId())) {
             if (ar.getDestinoBP().getCor().equals(Color.WHITE)) {
@@ -75,7 +62,6 @@ public class BuscaProfundidade {
             }
         }
 
-        
         aresta.getDestinoBP().setCor(Color.BLACK);
         incrementaTempo();
         aresta.getDestinoBP().setTempo_final(getTempo());
@@ -104,29 +90,21 @@ public class BuscaProfundidade {
         System.out.println("Remoçao do vertice " + vertice.getId());
         verBuscaP(grafo);
     }
-    
-    public Set<String> getSet() {
-        return set;
+
+    public void ordenaçaoTopologicaInit() {
+        this.listTopoligica = new ArrayList<>();
     }
 
-    public void setSet(Set<String> set) {
-        this.set = set;
+    public void ordenaçaoTopologica(Vertice_BP vertice) {
+        for (Vertice_BP vertice1 : this.listTopoligica) {
+            if (vertice1.getId().equals(vertice.getId())) {
+                return;
+            }
+        }
+        listTopoligica.add(vertice);
     }
 
-    private void incrementaTempo() {
-        this.tempo++;
-    }
-
-    public int getTempo() {
-        return tempo;
-    }
-
-    public void setTempo(int tempo) {
-        this.tempo = tempo;
-    }
-    
     public void verTopologia() {
-
         System.out.println("Topologia: ");
         for (Vertice_BP vertice : this.listTopoligica) {
             System.out.println("\t" + vertice.getId() + "<"
@@ -134,7 +112,7 @@ public class BuscaProfundidade {
                     + vertice.getTempo_final() + ">");
         }
     }
-
+    
     public void verBuscaP(Grafo grafo) {
         //Print_results
         System.out.println("Keys: " + grafo.getMap().keySet());
@@ -144,8 +122,8 @@ public class BuscaProfundidade {
             System.out.print("\t" + str + "-->\t");
             for (Aresta ar : grafo.getMap().get(str)) {
                 System.out.print(ar.getDestinoBP().getId() + "<"
-                        +   ar.getDestinoBP().getNameColor(ar.getDestinoBP().getCor()) +
-                            ar.getDestinoBP().getTempo_inicial() +","+ar.getDestinoBP().getTempo_final()+">");
+                        + ar.getDestinoBP().getNameColor(ar.getDestinoBP().getCor())
+                        + ar.getDestinoBP().getTempo_inicial() + "," + ar.getDestinoBP().getTempo_final() + ">");
             }
             System.out.println("");
         }
@@ -167,16 +145,15 @@ public class BuscaProfundidade {
                 }
             }
         }
-        
+
         this.set = set;
         System.out.println("Inacessiveis");
         System.out.println(set.toString());
         System.out.println();
-        
+
     }
 
     public void insereBP(Grafo grafo, ArrayList<Transicoes> transicoes) {
-        
         //Adiciona os vertices key no map
         for (int i = 0; i < transicoes.size(); i++) {
             ArrayList<Aresta> aresta = new ArrayList<>();
@@ -186,7 +163,6 @@ public class BuscaProfundidade {
             ArrayList<Aresta> aresta = new ArrayList<>();
             grafo.getMap().put(transicoes.get(i).getDestino(), aresta);
         }
-
 
         //Adiciona o caminho que leva cada vertice
         for (int i = 0; i < transicoes.size(); i++) {
@@ -201,19 +177,19 @@ public class BuscaProfundidade {
             grafo.getMap().get(transicoes.get(i).getOrigem()).add(aresta);
 
         }
-        
+
         verInacessiveis(grafo, transicoes);
-        
+
         //Nil representa os vertices inalcançaveis
         ArrayList<Aresta> aresta = new ArrayList<>();
         Iterator<String> str = this.set.iterator();
-        grafo.getMap().put("nil",aresta);
-        
-        while(str.hasNext()){            
+        grafo.getMap().put("nil", aresta);
+
+        while (str.hasNext()) {
             String str1 = str.next();
             Aresta aresta1 = new Aresta();
             Vertice_BP vertice = new Vertice_BP();
-            
+
             vertice.setId(str1);
             vertice.setCor(Color.PINK);
             aresta1.setPeso(0.0);
@@ -221,9 +197,27 @@ public class BuscaProfundidade {
 
             grafo.getMap().get("nil").add(aresta1);
         }
-        
-        
         //verBuscaP(grafo);      
+    }
+
+    public Set<String> getSet() {
+        return set;
+    }
+
+    public void setSet(Set<String> set) {
+        this.set = set;
+    }
+
+    private void incrementaTempo() {
+        this.tempo++;
+    }
+
+    public int getTempo() {
+        return tempo;
+    }
+
+    public void setTempo(int tempo) {
+        this.tempo = tempo;
     }
 
 }

@@ -16,7 +16,7 @@ public class TiposBuscas {
         System.out.print("Digite[BL|BP]: ");
         tipoBusca = entrada.nextLine();
         System.out.println();
-        
+
         switch (tipoBusca) {
             case "BL":
                 iniciaBuscaLargura();
@@ -57,13 +57,16 @@ public class TiposBuscas {
         transicoes.add(aux4);
 
         nulo.verTransicoes(transicoes);
-
+        MatrizAdj matAdj = new MatrizAdj();
+        matAdj.iniciaMatrizAdj(transicoes);
+        matAdj.iniciaMatrixAdjT();
+        
         verticeInitialBL.setId("A");
 
-        bL.insereBL(grafo, transicoes);
+        /*bL.insereBL(grafo, transicoes);
         //bL.removeBLVertice(grafo,"C",1.00);
         bL.buscaLargura_init(grafo, verticeInitialBL);
-        bL.buscaLargura(grafo);
+        bL.buscaLargura(grafo);*/
     }
 
     private void iniciaBuscaProfundidade() {
@@ -103,15 +106,18 @@ public class TiposBuscas {
         transicoes.add(aux7);
 
         nulo.verTransicoes(transicoes);
-
+        MatrizAdj matAdj = new MatrizAdj();
+        matAdj.iniciaMatrizAdj(transicoes);
+        matAdj.iniciaMatrixAdjT();
+        
         verticeInitialBP.setId("A");
         arestaInicial.setDestinoBP(verticeInitialBP);
 
-        bP.insereBP(grafo, transicoes);
+        /*bP.insereBP(grafo, transicoes);
         bP.buscaProfundidade_Init(grafo);
         bP.buscaProfundidade(grafo, arestaInicial);
         bP.verBuscaP(grafo);
-        bP.verTopologia();
+        bP.verTopologia();*/
     }
 
 }
