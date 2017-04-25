@@ -1,6 +1,8 @@
-#Aluno: Renan Kodama Rodrigues RA:1602098
+#Aluno: Ana Carolina Frozza 	RA:1458116
+#Aluno: Renan Kodama Rodrigues 	RA:1602098
+#
 #Teoria dos Grafos UTFPR-CM
-
+#
 #Funcionamento:
 #	Após executar o programa, é pedido pelo console que o usuário entre com o nome de qual algoritmo de busca usar
 #	podendo ser BL(Busca em Largura) ou BP(Busca em Profundidade);
