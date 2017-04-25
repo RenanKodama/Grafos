@@ -2,13 +2,14 @@ package Grafos_Lista;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 
 public class MatrizAdj {
     
     private double[][] matrizAdj;
     private ArrayList<String> vertices;
     private double[][] matrizAdjT;
-
+    private HashMap<String, ArrayList<Aresta>> mapT = new HashMap<>();
     
     public void calculaMatrizAdjT(){
         for(int i=0;i<vertices.size();i++){
@@ -18,6 +19,20 @@ public class MatrizAdj {
         }
         verMatrizAdjT();
     }
+    
+//    public void transformarToList(){
+//        for(String str : vertices){
+//            ArrayList<Aresta> aresta = new ArrayList<>();
+//            this.mapT.put(str, aresta);
+//        }
+//        
+//        for (int i=0;i<vertices.size();i++){
+//            for(int j=0;j<vertices.size();j++){
+//                
+//                this.mapT.get(vertices.get(i)).add(e);
+//            }
+//        }
+//    }
     
     public void iniciaMatrixAdjT() {
         this.matrizAdjT = new double[this.vertices.size()][this.vertices.size()];
