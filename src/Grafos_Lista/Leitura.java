@@ -1,4 +1,3 @@
-
 package Grafos_Lista;
 
 import java.io.BufferedReader;
@@ -6,80 +5,68 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class Leitura {
-    public void pularLinhas(int num,BufferedReader lerArq) throws IOException{
-        for (int i = 0; i < (num-1); i++) {
-            lerArq.readLine();
-        }
-    }
-    
-    public void leituraArquivo(String local){
+
+    public void leituraArquivo(String local) {
         try {
-            int linhaMat,colunaMat;
             String[] aux;
+            String linha;
+            int[][] matriz;
+            int auxI;
+            int auxJ;
+            int linhaMat, colunaMat;
+
             FileReader arq = new FileReader(local);
             BufferedReader lerArq = new BufferedReader(arq);
-            
+
             aux = lerArq.readLine().split(" ");             //linha01 dimensao
-            linhaMat = Integer.parseInt(aux[0])-1;
-            colunaMat = Integer.parseInt(aux[1])-1;
-            
-            System.out.println("Dimensao: "+linhaMat+" "+colunaMat);
-            
-            int cont=0;
-            
-            String linha = lerArq.readLine();
+            linhaMat = Integer.parseInt(aux[0]);
+            colunaMat = Integer.parseInt(aux[1]);
+
+            System.out.println("Dimensao: " + linhaMat + " " + colunaMat + "\n");
+
+            linha = lerArq.readLine();
+
+            auxI = linhaMat;
+            auxJ = 1;
+            matriz = new int[linhaMat][colunaMat];
+
             while (linha != null) {
-                System.out.println(linha);
-                
-                if(cont == linhaMat){
-                    System.out.println("Outro Grafo");
-                    cont=0;
+                for (int i = 0; i < linhaMat; i++) {
+                    for (String str : linha.split(" ")) {
+                        if (!str.equals("")) {
+                            matriz[auxI - 1][auxJ] = Integer.parseInt(str);         //transformando em integer
+                            matriz[auxJ][auxI - 1] = Integer.parseInt(str);
+                            auxJ++;
+                        }
+                    }
+                    auxJ = 1;
+                    auxI--;
+
+                    //System.out.println(linha);        //linha referente ao arquivo
+                    linha = lerArq.readLine();
                 }
-                cont++;
+                auxI = linhaMat;
+                auxJ = 1;
+                verMatrixEspelhada(linhaMat, colunaMat, matriz);
                 
-                linha = lerArq.readLine();
+                //A FUNÇAO SERIA MAIS OU MENOS AQUI PARA CALCULAR CADA GRAFO
             }
-            arq.close();
-
             
-
-//            pularLinhas(5,lerArq);
-//            pularLinhas(1,lerArq);              //linha13 to end transiçoes
-//            ArrayList<Transicoes> listEstados = new ArrayList();
-//            
-//            
-
+            arq.close();
             
         } catch (IOException e) {
-            System.err.printf("Erro na abertura do arquivo: %s.\n",e.getMessage());
+            System.err.printf("Erro na abertura do arquivo: %s.\n", e.getMessage());
         }
     }
-    
-//    public void verTransicoes(AutomatoLeitura automato){
-//        System.out.println("AlfabetoEntrada: "+Arrays.toString(automato.getAlfabetoEntrada()));
-//        System.out.println("AlfabetoPilha: "+Arrays.toString(automato.getAlfabetoPilha()));
-//        System.out.println("SimboloEpsolon: "+Arrays.toString(automato.getSimboloEpsilon()));
-//        System.out.println("SimboloInicialPilha: "+Arrays.toString(automato.getSimboloInicialPilha()));
-//        System.out.println("ConjuntoEstados: "+Arrays.toString(automato.getConjuntoEstados()));
-//        System.out.println("EstadoInicial: "+Arrays.toString(automato.getEstadoInicial()));
-//        System.out.println("EstadosAceitaçao: "+Arrays.toString(automato.getEstadosAceitacao()));
-//        
-//        System.out.println("Transiçoes: ");
-//        
-//        for(Transicoes tr : automato.getTransicoes()){
-//            System.out.println("\t"+tr.getEstadoAtual()+" "
-//                    +tr.getSimboloAtualPalavra()+" "
-//                    +tr.getSomboloTopoPilha()+" "
-//                    +tr.getNovoEstado()+" "
-//                    +tr.getSimboloEmpilhar()
-//            );
-//        }
-//        iniciaAutomato(automato);
-//    }
-    
-//    public void iniciaAutomato(AutomatoLeitura automato){
-//        Automato auto = new Automato();
-//        auto.gerarAutomato(automato);
-//    }
-   
+
+    public void verMatrixEspelhada(int linhaMat, int colunaMat, int[][] matriz) {
+        System.out.println("Grafo Matriz Espelhada");
+        for (int i = 1; i < linhaMat; i++) {
+            for (int j = 1; j < colunaMat; j++) {
+                System.out.print(matriz[i][j] + " ");
+            }
+            System.out.println();
+        }
+        System.out.println();
+    }
 }
