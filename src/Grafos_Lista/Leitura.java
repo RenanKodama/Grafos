@@ -32,28 +32,31 @@ public class Leitura {
 
             while (linha != null) {
                 for (int i = 0; i < linhaMat; i++) {
-                    for (String str : linha.split(" ")) {
-                        if (!str.equals("")) {
-                            matriz[auxI - 1][auxJ] = Integer.parseInt(str);         //transformando em integer
-                            matriz[auxJ][auxI - 1] = Integer.parseInt(str);
-                            auxJ++;
+                    if (linha != null) {
+                        for (String s : linha.split(" ")) {
+                            if (!s.isEmpty()) {
+                                matriz[auxI - 1][auxJ] = Integer.parseInt(s);         //transformando em integer
+                                matriz[auxJ][auxI - 1] = Integer.parseInt(s);
+                                auxJ++;
+                            }
                         }
+                        auxJ = 1;
+                        auxI--;
                     }
-                    auxJ = 1;
-                    auxI--;
 
                     //System.out.println(linha);        //linha referente ao arquivo
                     linha = lerArq.readLine();
                 }
                 auxI = linhaMat;
                 auxJ = 1;
+
                 verMatrixEspelhada(linhaMat, colunaMat, matriz);
-                
+
                 //A FUNÇAO SERIA MAIS OU MENOS AQUI PARA CALCULAR CADA GRAFO
             }
-            
+
             arq.close();
-            
+
         } catch (IOException e) {
             System.err.printf("Erro na abertura do arquivo: %s.\n", e.getMessage());
         }
