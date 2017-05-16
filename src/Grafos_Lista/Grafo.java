@@ -8,7 +8,7 @@ public class Grafo {
     private HashMap<String, ArrayList<Aresta>> map = new HashMap<>();
     
     public HashMap<String, ArrayList<Aresta>> getMap() {
-        return map;
+        return this.map;
     }
 
     public void setMap(HashMap<String, ArrayList<Aresta>> map) {

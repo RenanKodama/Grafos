@@ -30,8 +30,8 @@ public class BuscaProfundidade {
         //Se branco chamar a funçao buscaProfundidade
         for (ArrayList<Aresta> ar : grafo.getMap().values()) {
             for (int i = 0; i < ar.size(); i++) {
-                /*debug*/
-                //verBuscaP(grafo);
+               
+                //verBuscaP(grafo);         /*debug*/
                 if (ar.get(i).getDestinoBP().getCor().equals(Color.WHITE)) {
                     buscaProfundidade(grafo, ar.get(i));
                 }

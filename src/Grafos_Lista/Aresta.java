@@ -4,8 +4,18 @@ package Grafos_Lista;
 public class Aresta {
     private Vertice_BL destinoBL;
     private Vertice_BP destinoBP;
+    private Vertice_AGM destinoAGM;
     private Double peso;
 
+    
+    public Vertice_AGM getDestinoAGM() {
+        return destinoAGM;
+    }
+
+    public void setDestinoAGM(Vertice_AGM destinoAGM) {
+        this.destinoAGM = destinoAGM;
+    }
+    
     public Vertice_BL getDestinoBL() {
         return destinoBL;
     }
