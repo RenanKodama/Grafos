@@ -1,5 +1,6 @@
 package Grafos_Lista;
 
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class Principal {
@@ -28,12 +29,12 @@ public class Principal {
         System.out.println("Nome do Arquivo: ");
         local = entrada.nextLine();
         
-        leitura.leituraArquivo(local);
-        //tb.iniciaBuscas();
-        
-
-        System.out.println("");
-
+        try {
+            leitura.leituraArquivo(local);
+            //tb.iniciaBuscas();
+        } catch (FileNotFoundException ex) {
+            System.out.println(ex);
+        }
     }
 
 }

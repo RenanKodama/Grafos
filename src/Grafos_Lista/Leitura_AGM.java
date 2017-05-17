@@ -1,91 +1,77 @@
 package Grafos_Lista;
 
-import java.awt.Color;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Scanner;
 
 public class Leitura_AGM {
 
-    public void leituraArquivo(String local) {
-        try {
-            String[] aux;
-            String linha;
-            Double[][] matriz;
-            int auxI;
-            int auxJ;
-            int linhaMat, colunaMat;
+    public void arrumarMatriz(int peso, Double[][] matriz) {
 
-            FileReader arq = new FileReader(local);
-            BufferedReader lerArq = new BufferedReader(arq);
-
-            aux = lerArq.readLine().split(" ");             //linha01 dimensao
-            linhaMat = Integer.parseInt(aux[0]);
-            colunaMat = Integer.parseInt(aux[1]);
-
-            System.out.println("Dimensao: " + linhaMat + " " + colunaMat + "\n");
-
-            linha = lerArq.readLine();
-
-            auxI = linhaMat;
-            auxJ = 1;
-            matriz = new Double[linhaMat][colunaMat];
-
-            while (linha != null) {
-                for (int i = 0; i < linhaMat; i++) {
-                    if (linha != null) {
-                        for (String s : linha.split(" ")) {
-                            if (!s.isEmpty()) {
-                                if (auxI - 1 == auxJ) {
-                                    matriz[auxI - 1][auxJ] = 0.0;     //atribuindo zero para DiagonalPrincipal
-
-                                } else {
-                                    double aux0;
-                                    if(Double.parseDouble(s) == linhaMat){
-                                        aux0 = -1.0;
-                                    }
-                                    else{
-                                        aux0 = Double.parseDouble(s);
-                                    }
-                                    matriz[auxI - 1][auxJ] = aux0;     //transformando em double
-                                    matriz[auxJ][auxI - 1] = aux0;     //transformando em double
-                                }
-                                auxJ++;
-                            }
-                        }
-                        auxJ = 1;
-                        auxI--;
-                    }
-
-                    //System.out.println(linha);        //linha referente ao arquivo
-                    linha = lerArq.readLine();
+        for (int i = 0; i < peso; i++) {
+            for (int j = 0; j < peso; j++) {
+                if (i == j) {
+                    matriz[i][j] = 0.0;
                 }
-                auxI = linhaMat;
-                auxJ = 1;
-             
-                HashMap<String, ArrayList<Aresta>> map;
-                
-                verMatrixEspelhada(linhaMat, colunaMat, matriz);        //ver resultado dos grafos em forma de matriz completa
-                map = tranformarToList(matriz, linhaMat, colunaMat);          //relizar a tranformaçao da matriz para lista(hashMap)
-                
             }
-
-            arq.close();
-
-        } catch (IOException e) {
-            System.err.printf("Erro na abertura do arquivo: %s.\n", e.getMessage());
         }
     }
 
-    public HashMap<String, ArrayList<Aresta>> tranformarToList(Double[][] matriz, int linha, int coluna) {
+    public void leituraArquivo(String local) throws FileNotFoundException {
+        Scanner scanner = new Scanner(new File(local));
+        int qtdLinha;
+        String aux[];
+        Double matriz[][];
+        Double pesoMax;
+
+        aux = scanner.nextLine().split(" ");
+        qtdLinha = Integer.parseInt(aux[0]);
+        pesoMax = Double.parseDouble(aux[1]);
+
+        System.out.println("Dimensoes: " + qtdLinha + " " + pesoMax);
+
+        while (scanner.hasNext()) {
+            matriz = new Double[qtdLinha][qtdLinha];
+
+            for (int i = 0; i < qtdLinha; i++) {
+                if (scanner.hasNext()) {
+
+                    aux = scanner.nextLine().split(" ");
+
+                    for (int j = 0; j < aux.length; j++) {
+                        if (!aux[j].equals("")) {
+                            if ((qtdLinha - 1 - i) == j) {
+                                matriz[qtdLinha - 1 - i][j] = 0.0;
+                                matriz[j][qtdLinha - 1 - i] = 0.0;
+
+                            } else {
+                                matriz[qtdLinha - 1 - i][j] = Double.parseDouble(aux[j]);
+                                matriz[j][qtdLinha - 1 - i] = Double.parseDouble(aux[j]);
+                            }
+                        }
+
+                    }
+                    //System.out.println(Arrays.toString(aux));
+                }
+
+            }
+            arrumarMatriz(qtdLinha, matriz);
+            verMatrizEspelhada(qtdLinha, matriz);
+            tranformarToList(matriz, qtdLinha, pesoMax);
+            //System.out.println("iniciou outro grafo");
+        }
+
+    }
+
+    public HashMap<String, ArrayList<Aresta>> tranformarToList(Double[][] matriz, int linha, Double pesomax) {
         HashMap<String, ArrayList<Aresta>> map = new HashMap<>();
         Grafo_AGM grafo_agm = new Grafo_AGM();
 
         //adicionando Keys no map
         for (int i = 0; i < linha; i++) {
-            for (int j = 0; j < coluna; j++) {
+            for (int j = 0; j < linha; j++) {
                 ArrayList<Aresta> ar = new ArrayList<>();
                 map.put(Integer.toString(i), ar);
             }
@@ -93,7 +79,7 @@ public class Leitura_AGM {
 
         //adicionando adjacentes
         for (int i = 0; i < linha; i++) {
-            for (int j = 0; j < coluna; j++) {
+            for (int j = 0; j < linha; j++) {
                 Aresta aresta = new Aresta();
                 Vertice_AGM vr = new Vertice_AGM();
 
@@ -104,18 +90,27 @@ public class Leitura_AGM {
                 map.get(Integer.toString(i)).add(aresta);
             }
         }
+        
+        //criando inalcaçaveis
+        for (String str : map.keySet()) {
+            for (Aresta ar : map.get(str)) {
+                if(ar.getPeso().equals(pesomax)){
+                    ar.setPeso(-1.00);
+                }
+            }
+        }
+
         grafo_agm.setMap(map);
 
         //ver HashMap
-        
         verMap(grafo_agm);
-        return(map);
+        return (map);
     }
 
-    public void verMatrixEspelhada(int linhaMat, int colunaMat, Double[][] matriz) {
+    public void verMatrizEspelhada(int linhaMat, Double[][] matriz) {
         System.out.println("Grafo Matriz Espelhada");
-        for (int i = 1; i < linhaMat; i++) {
-            for (int j = 1; j < colunaMat; j++) {
+        for (int i = 0; i < linhaMat; i++) {
+            for (int j = 0; j < linhaMat; j++) {
                 System.out.print(matriz[i][j] + " ");
             }
             System.out.println();
@@ -130,8 +125,8 @@ public class Leitura_AGM {
         for (String str : grafo_agm.getMap().keySet()) {
             System.out.print("\t" + str + "-->\t");
             for (Aresta ar : grafo_agm.getMap().get(str)) {
-                System.out.print(" "+
-                        ar.getDestinoAGM().getId() + "<"
+                System.out.print(" "
+                        + ar.getDestinoAGM().getId() + "<"
                         + ar.getPeso() + ">");
             }
             System.out.println("");
