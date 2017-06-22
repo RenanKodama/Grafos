@@ -11,8 +11,11 @@ public class BuscaProfundidade {
     private int tempo;
     private Set<String> set;
     private ArrayList<Vertice_BP> listTopoligica;
+    private boolean recomeco = false;
 
-    public void buscaProfundidade_Init(Grafo grafo) {
+    public boolean buscaProfundidade_Init(Grafo grafo) {
+        grafo = new Grafo();
+        
         ordenaçaoTopologicaInit();
 
         for (ArrayList<Aresta> ar : grafo.getMap().values()) {
@@ -30,14 +33,18 @@ public class BuscaProfundidade {
         //Se branco chamar a funçao buscaProfundidade
         for (ArrayList<Aresta> ar : grafo.getMap().values()) {
             for (int i = 0; i < ar.size(); i++) {
-               
+
                 //verBuscaP(grafo);         /*debug*/
                 if (ar.get(i).getDestinoBP().getCor().equals(Color.WHITE)) {
+                    if (recomeco == true) {
+                        return true;
+                    }
+                    recomeco = true;
                     buscaProfundidade(grafo, ar.get(i));
                 }
             }
         }
-
+        return false;
     }
 
     public void buscaProfundidade(Grafo grafo, Aresta aresta) {
@@ -112,7 +119,7 @@ public class BuscaProfundidade {
                     + vertice.getTempo_final() + ">");
         }
     }
-    
+
     public void verBuscaP(Grafo grafo) {
         //Print_results
         System.out.println("Keys: " + grafo.getMap().keySet());

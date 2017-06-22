@@ -67,7 +67,7 @@ public class Leitura_AGM {
 
     public HashMap<String, ArrayList<Aresta>> tranformarToList(Double[][] matriz, int linha, Double pesomax) {
         HashMap<String, ArrayList<Aresta>> map = new HashMap<>();
-        Grafo_AGM grafo_agm = new Grafo_AGM();
+        Grafo grafo_agm = new Grafo();
 
         //adicionando Keys no map
         for (int i = 0; i < linha; i++) {
@@ -92,18 +92,23 @@ public class Leitura_AGM {
         }
         
         //criando inalcaçaveis
-        for (String str : map.keySet()) {
-            for (Aresta ar : map.get(str)) {
-                if(ar.getPeso().equals(pesomax)){
-                    ar.setPeso(-1.00);
-                }
-            }
-        }
+//        for (String str : map.keySet()) {
+//            for (Aresta ar : map.get(str)) {
+//                if(ar.getPeso().equals(pesomax)){
+//                    ar.setPeso(-1.00);
+//                }
+//            }
+//        }
 
         grafo_agm.setMap(map);
 
         //ver HashMap
+        int numeroLabels = 0;
         verMap(grafo_agm);
+        
+        
+        
+        
         return (map);
     }
 
@@ -118,7 +123,7 @@ public class Leitura_AGM {
         System.out.println();
     }
 
-    public void verMap(Grafo_AGM grafo_agm) {
+    public void verMap(Grafo grafo_agm) {
         System.out.println("Keys: " + grafo_agm.getMap().keySet());
 
         System.out.println("Content[" + grafo_agm.getMap().values().size() + "]: ");
